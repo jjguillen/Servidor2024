@@ -113,7 +113,7 @@
         echo "<br>";
     }
     
-    echo "Modificado";
+    echo "Modificad o";
  
 ?>
 
