@@ -107,7 +107,7 @@
 
     echo "<br>";
     foreach($alumnos as $alumno) {
-        foreach($alumno as $valor) {
+        foreach($alumno as $valor) {  
             echo $valor . " ";
         }
         echo "<br>";
