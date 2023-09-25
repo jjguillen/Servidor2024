@@ -117,7 +117,7 @@
 
     echo "Cambio en rama develop";
 
-    echo "Sigo programando";
+    echo "Sigo programando más";
  
 ?>
 
