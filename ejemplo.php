@@ -113,7 +113,7 @@
         echo "<br>";
     }
     
-    echo "Modificado";
+    echo "Modificado"
 
     echo "Cambio en rama develop";
  
