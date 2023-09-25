@@ -1,6 +1,6 @@
 <?php
 
-echo "Un error"
+echo "Un error";
 
 echo "Después";
 ?>
