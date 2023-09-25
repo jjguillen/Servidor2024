@@ -1,3 +1,6 @@
 <?php
-ss
+
+echo "Un error"
+
+echo "Después";
 ?>
