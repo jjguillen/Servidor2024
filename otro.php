@@ -1,8 +1,8 @@
 <?php
 
-echo "Un error"
+echo "Un error";
 
 echo "Después";
 
-echo "Sigo haciendo cosas";
+echo "Otra cosa";
 ?>
