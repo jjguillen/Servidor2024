@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejemplo PHP</title>
-</head>
-<body>
-        <h2>Ejemplo PHP</h2>
+<?php
+    include "menu.html";
+?>
+
+    <div class='container'>
 
 <?php
     $nombre = "Javier";
@@ -96,6 +92,10 @@
                         "Francia" => "París",
                         "Alemania" => "Berlín");
     echo $capitales["Francia"];
+
+    foreach($capitales as $clave => $valor) {
+        echo "<br>País: " . $clave . " su capital es: " . $valor;
+    }
     echo "<br>";
 
     $alumnos = array(
@@ -120,6 +120,7 @@
     echo "Sigo programando más";
  
 ?>
+    </div>
 
 
 </body>
