@@ -6,6 +6,7 @@
         <div class="bg-light p-5 mt-5 rounded">
             
             <h3>Carro de la compra</h3>
+            <hr class="text-dark mb-4">
 
 <?php
 
@@ -29,7 +30,7 @@
       );
 
       //Pintar el carro de la compra
-      echo '<table class="table table-bordered border-secondary">';
+      echo '<table class="table table-hover table-secondary rounded-3 overflow-hidden">';
 
       //Cabecera de la tabla
       echo '  <thead>';
@@ -69,7 +70,7 @@
       //Pie de la tabla
       echo '  <tfoot>';
       echo '    <td scope="col" class="col-8 fw-bold" colspan="3">Total:</td>';
-      echo '    <td scope="col" class="col-4 fw-bold" colspan="2">'.$totalConIva.'€<span class="p-3">Sin Iva: '.$totalSinIva.'€</span></td>';
+      echo '    <td scope="col" class="col-4" colspan="2"><span class="fw-bold">'.$totalConIva.'€</span><span class="p-3">Sin Iva: '.$totalSinIva.'€</span></td>';
       echo '  </tfoot>';
 
       echo '</table>';
@@ -78,6 +79,8 @@
 
 
         </div>
+
+        <br><br><br><br>
     </main>
 
 
