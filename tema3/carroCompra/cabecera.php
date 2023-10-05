@@ -39,7 +39,7 @@
     
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand me-5" href="#">Mi Tienda</a>
+            <a class="navbar-brand" href="#">Mi Tienda</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -54,18 +54,6 @@
                 
             </ul>
             <div class="d-flex">
-<?php
-  if (isset($_SESSION['usuario'])) {
-    echo "<a href='controlador.php?accion=cerrarSesion' class='text-primary me-2'>".$_SESSION['usuario']['email']."</a>";
-  } else {
-  
-?>
-                <a href="./registro.php"><button class="btn btn-outline-success me-1" type="submit">Registro</button></a>
-                <a href="./login.php"><button class="btn btn-outline-success me-1" type="submit">Login</button></a>
-
-<?php
-  }
-?>               
                 <a href="./carro.php"><button class="btn btn-outline-success" type="submit"><img src="./img/carro.png" alt=""></button></a>
             </div>
             </div>
