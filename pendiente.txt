@@ -1,0 +1,9 @@
+1. Formulario crear usuarios
+2. Formulario añadir productos
+3. Sesión para meter usuario
+4. Si está el usuario mostrar el botón de añadir producto
+5. Hacer el carro de la compra con sesiones
+
+EXTRA
+1. Login con cookies
+2. 
