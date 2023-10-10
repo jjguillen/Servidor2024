@@ -12,23 +12,11 @@
 <?php
 
 
-      //Array con los productos del carro
-      $carro = array(
-
-        array("nombre" => "AMD Ryzen 7 5800X", "precio" => 325, "cantidad" => 1,
-                    "img" => "./img/productos/pr1.webp", "ivaR" => 0),
-        array("nombre" => "Logitech 350", "precio" => 50, "cantidad" => 10,
-                    "img" => "./img/productos/pr2.webp", "ivaR" => 1),
-        array("nombre" => "Monitor AOC 32' OLED", "precio" => 610, "cantidad" => 1,
-                    "img" => "./img/productos/pr3.webp", "ivaR" => 0),
-        array("nombre" => "Teclado Ducky español", "precio" => 120, "cantidad" => 2,
-                    "img" => "./img/productos/pr1.webp", "ivaR" => 1),
-        array("nombre" => "Nvidia GTX 4090", "precio" => 2000, "cantidad" => 1,
-                    "img" => "./img/productos/pr1.webp", "ivaR" => 1),
-        array("nombre" => "SSD Samsung 980 Pro 2TB", "precio" => 170, "cantidad" => 2,
-                    "img" => "./img/productos/pr1.webp", "ivaR" => 0),
-
-      );
+      //Productos que están en el carro de la compra, lo sacamos de la sesión
+      if (isset($_SESSION['carro']))
+        $carro = $_SESSION['carro'];
+      else
+        $carro = array();
 
       //Pintar el carro de la compra
       echo '<table class="table table-hover table-secondary rounded-3 overflow-hidden">';
@@ -41,6 +29,7 @@
       echo '        <th scope="col" class="col-7">Nombre</th>';
       echo '        <th scope="col" class="col-2">Precio</th>';
       echo '        <th scope="col" class="col-1">Cantidad</th>';
+      echo '        <th scope="col" class="col-1">Acciones</th>';
       echo '    </tr>';
       echo '  </thead>';
       echo '  <tbody>';
@@ -55,7 +44,10 @@
                     <td><img src="'.$linea["img"].'" class="img-thumbnail" width="80px"></td>
                     <td>'.$linea["nombre"].'</td>
                     <td>'.$linea["precio"].'€</td>
-                    <td>'.$linea["cantidad"].'</td>
+                    <td><a class="text-decoration-none" href="controlador.php?accion=restarCantidad&idProducto='.$linea["id"].'">-</a>'
+                    .$linea["cantidad"].
+                    '<a class="text-decoration-none" href="controlador.php?accion=subirCantidad&idProducto='.$linea["id"].'">+</a></td>
+                    <td><a href="controlador.php?accion=borrarDelCarro&idProducto='.$linea["id"].'"><button class="btn btn-danger">X</button></a></td>
                 </tr>';
 
         //Actualizamos el total
@@ -75,6 +67,11 @@
       echo '  </tfoot>';
 
       echo '</table>';
+
+      echo "<br>";
+      if (isset($_SESSION['usuario']))
+        echo "<button class='btn btn-success'>Comprar</button>";
+
 
 ?>
 

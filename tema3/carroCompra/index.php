@@ -1,5 +1,7 @@
 <?php
   session_start();
+  //session_destroy();
+
   include "cabecera.php";
 ?>
 
@@ -11,26 +13,30 @@
 <?php
 
     //Array con los productos del carro
-    $carro = array(
+    $productos = array(
 
-    array("nombre" => "AMD Ryzen 7 5800X", "precio" => 325, "cantidad" => 1,
+    array("id" => "p0001", "nombre" => "AMD Ryzen 7 5800X", "precio" => 325, "cantidad" => 1,
                 "img" => "./img/productos/pr1.webp", "ivaR" => 0),
-    array("nombre" => "Logitech 350", "precio" => 50, "cantidad" => 10,
+    array("id" => "p0002", "nombre" => "Logitech 350", "precio" => 50, "cantidad" => 1,
                 "img" => "./img/productos/pr2.webp", "ivaR" => 1),
-    array("nombre" => "Monitor AOC 32' OLED", "precio" => 610, "cantidad" => 1,
+    array("id" => "p0003", "nombre" => "Monitor AOC 32' OLED", "precio" => 610, "cantidad" => 1,
                 "img" => "./img/productos/pr3.webp", "ivaR" => 0),
-    array("nombre" => "Teclado Ducky español", "precio" => 120, "cantidad" => 2,
+    array("id" => "p0004", "nombre" => "Teclado Ducky español", "precio" => 120, "cantidad" => 1,
                 "img" => "./img/productos/pr1.webp", "ivaR" => 1),
-    array("nombre" => "Nvidia GTX 4090", "precio" => 2000, "cantidad" => 1,
+    array("id" => "p0005", "nombre" => "Nvidia GTX 4090", "precio" => 2000, "cantidad" => 1,
                 "img" => "./img/productos/pr1.webp", "ivaR" => 1),
-    array("nombre" => "SSD Samsung 980 Pro 2TB", "precio" => 170, "cantidad" => 2,
+    array("id" => "p0006", "nombre" => "SSD Samsung 980 Pro 2TB", "precio" => 170, "cantidad" => 1,
                 "img" => "./img/productos/pr1.webp", "ivaR" => 0),
 
     );
+
+    //Meter en la sesión todos los productos
+    if (!isset($_SESSION['productos']))
+        $_SESSION['productos'] = $productos;
      
     echo '<div class="row">';
 
-    foreach($carro as $linea) {
+    foreach($_SESSION['productos'] as $linea) {
         echo '<div class="col">';
         echo '
                 <div class="card mb-4" style="width: 18rem;">
@@ -38,9 +44,11 @@
                     <div class="card-body">
                         <h6 class="card-title">'.$linea["nombre"].'</h6>
                         <p class="card-text">'.$linea["precio"].'€</p>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comprar">
-                            Comprar
-                        </button>
+                        
+                        <a href="controlador.php?accion=addCarro&idProducto='.$linea["id"].'">
+                        <button type="button" class="btn btn-primary text-light">
+                          Comprar
+                        </button></a>
 
                     </div>
                 </div>
@@ -48,6 +56,12 @@
 
         echo '</div>';
     }
+
+    /**Modal
+     * <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#comprar">
+                            Comprar
+                        </button>
+     */
 
     echo '</div>';
 
