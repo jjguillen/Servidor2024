@@ -10,6 +10,8 @@
             <hr class="text-dark mb-4">
 
 <?php
+      //Leer la cookie
+      echo "<h4 class='text-danger'>".$_COOKIE['CategoriaPCC']."</h4>";
 
 
       //Productos que están en el carro de la compra, lo sacamos de la sesión

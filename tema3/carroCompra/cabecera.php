@@ -1,3 +1,42 @@
+<?php
+    //Comprobamos   si hemos pinchado en una categoría
+    if (isset($_GET['categoria'])) {
+      $categoria = $_GET['categoria'];
+
+      //ENCRIPTAR
+      $cipher = "aes-128-gcm";
+      $ivlen = openssl_cipher_iv_length($cipher);
+      $iv = openssl_random_pseudo_bytes($ivlen);
+      $key = "hljisaeypflajelakelvlealelakalll";
+      
+      //Leo el valor de la cookie y si tiene algo, le añado lo nuevo
+      if (isset($_COOKIE["CategoriaPCC"])) {
+        //No meter repetidos
+        //Desencriptar cookie
+
+        //Pasar a array para quitar repetidos
+        $arrayCategorias = explode("#", $_COOKIE["CategoriaPCC"]);
+
+        if (! is_numeric(array_search($categoria, $arrayCategorias)) ) {
+          $categoriaCookie = $_COOKIE["CategoriaPCC"]. "#" . $categoria;
+
+          $ciphertext = openssl_encrypt($categoriaCookie, $cipher, $key, $options=0, $iv, $tag);
+
+          setcookie("CategoriaPCC", $ciphertext, time() + 60, "/", "localhost");
+        }
+      } else {
+        //Crear un cookie con la categoría elegida
+
+        $ciphertext = openssl_encrypt($categoria, $cipher, $key, $options=0, $iv, $tag);
+
+        setcookie("CategoriaPCC", $ciphertext, time() + 60, "/", "localhost");
+      }
+
+    } else {
+      $categoria = "todas";
+    }
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -49,7 +88,16 @@
                 <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="#">Acerca de</a>
+                <a class="nav-link" href="index.php?categoria=ratones">Ratones</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="index.php?categoria=monitores">Monitores</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="index.php?categoria=teclados">Teclados</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="index.php?categoria=graficas">Gráficas</a>
                 </li>
                 
             </ul>
