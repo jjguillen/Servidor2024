@@ -1,9 +1,8 @@
 <?php
-  ini_set("session.cookie_secure", 0);
   session_start();
   //session_destroy();
 
-  include "cabecera.php";
+  include_once "cabecera.php";
 ?>
 
     <main class="container">
