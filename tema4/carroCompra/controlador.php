@@ -3,17 +3,6 @@
 
     include_once("lib.php");
 
-    //Función que dado un id de producto te devuelve el producto entero con la información que tiene en la sesión
-    function buscarProducto($idProducto) {
-        foreach($_SESSION['productos'] as $producto) {
-            if (strcmp($producto['id'], $idProducto) == 0 ) {
-                return $producto;
-            }
-        }
-
-        return array();
-    }
-
 
 //Si es una petición POST la tratamos aquí
     if ($_POST) {
@@ -78,10 +67,51 @@
                 die();
             }
 
-
-            
         }
 
+        //FORMULARIO ADMIN - NUEVO PRODUCTO
+        //FORMULARIO DE LOGIN
+        if (isset($_POST["nuevoProducto"])) {
+            $nombre = $_POST['nombre'];
+            $precio = $_POST['precio'];
+            $img = $_POST['img'];
+            $categoria = $_POST['categoria'];
+
+            if (isset($_POST['ivaR'])) {
+                $ivaR = 1;
+            } else {
+                $ivaR = 0;
+            }
+
+            insertarProducto($nombre, $precio, $img, $categoria, $ivaR);
+
+            //REDIRIGIR A INDEX.HTML
+            header("Location: admin/index.php");
+            die();
+            
+        }
+        
+        //FORMULARIO DE LOGIN
+        if (isset($_POST["modificarProducto"])) {
+            $nombre = $_POST['nombre'];
+            $precio = $_POST['precio'];
+            $img = $_POST['img'];
+            $categoria = $_POST['categoria'];
+            $id = $_POST['id'];
+
+            if (isset($_POST['ivaR'])) {
+                $ivaR = 1;
+            } else {
+                $ivaR = 0;
+            }
+
+            modificarProducto($id, $nombre, $precio, $img, $categoria, $ivaR);
+
+            //REDIRIGIR A INDEX.HTML
+            header("Location: admin/index.php");
+            die();
+            
+        }
 
     }
 
@@ -91,18 +121,19 @@
     if($_GET) {
         //Por seguridad deberíamos comprobar que para hacer ciertas acciones debes estar logueado
 
-        //Acción cerrar sesión
         if (isset($_GET['accion'])) {
+
+            //Acción cerrar sesión
+        
             if (strcmp($_GET['accion'],"cerrarSesion") == 0) {
                 session_destroy();
 
                 header("Location: index.php");
                 die();
             }
-        }
+        
 
-        //Acción de añadir producto al carro
-        if (isset($_GET['accion'])) {
+            //Acción de añadir producto al carro
             if (strcmp($_GET['accion'],"addCarro") == 0) {
                 $idProducto = $_GET['idProducto'];
 
@@ -110,7 +141,6 @@
                 if (!isset($_SESSION['carro'])) {
                     //Crear la variable del carro en la sesión
                     $_SESSION['carro'] = array();
-
                 } 
 
                 //Buscar el producto con el id del producto que se ha comprado
@@ -132,10 +162,9 @@
                 die();
                 
             }
-        }
+        
 
-        //Borrar producto del carro
-        if (isset($_GET['accion'])) {
+            //Borrar producto del carro
             if (strcmp($_GET['accion'],"borrarDelCarro") == 0) {
 
                 $idProducto = $_GET['idProducto'];
@@ -157,10 +186,9 @@
                 header("Location: carro.php");
                 die(); 
             }
-        }
+        
 
-        //Modificar cantidad del carro
-        if (isset($_GET['accion'])) {
+            //Modificar cantidad del carro
             if (strcmp($_GET['accion'],"restarCantidad") == 0) { 
                 $idProducto = $_GET['idProducto'];
 
@@ -170,6 +198,10 @@
                     if ($_SESSION['carro'][$posicion]['cantidad'] > 1)
                         $_SESSION['carro'][$posicion]['cantidad']--;
                 }
+
+                //Redirigir a ver el carro de la compra
+                header("Location: carro.php");
+                die();
             }
 
             if (strcmp($_GET['accion'],"subirCantidad") == 0) { 
@@ -180,13 +212,23 @@
                 if ($posicion !== FALSE) {
                     $_SESSION['carro'][$posicion]['cantidad']++;
                 }
+
+                //Redirigir a ver el carro de la compra
+                header("Location: carro.php");
+                die();
             }
 
-            //Redirigir a ver el carro de la compra
-            header("Location: carro.php");
-            die();
-        }
+            //Borrar producto BBDD
+            if (strcmp($_GET['accion'],"borrarProducto") == 0) { 
 
+                borrarProducto($_GET['id']);
+
+                //REDIRIGIR A INDEX.HTML
+                header("Location: admin/index.php");
+                die();
+            }
+
+        }
     }
 
 ?>

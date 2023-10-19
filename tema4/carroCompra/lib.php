@@ -96,5 +96,101 @@
         $con = null;
     }
 
+     /**
+     * COMPROBAR LOGIN
+     */
+    function consultarProductos() {
+
+        $con = conexion("php","root","toor");
+
+        $consulta = $con->prepare("SELECT * FROM productos");
+        $consulta->setFetchMode(PDO::FETCH_ASSOC);
+        $consulta->execute();
+
+        $productos = $consulta->fetchAll();
+        
+        $con = null;
+
+        return $productos;
+    }
+
+
+     /**
+     * INSERTAR PRODUCTO
+     */
+    function insertarProducto($nombre, $precio, $img, $categoria, $ivaR) {
+
+        $con = conexion("php","root","toor");
+
+        //Insertar usuario
+        $consulta = $con->prepare("INSERT INTO productos (nombre, precio, img, categoria, ivaR, cantidad)  VALUES (?,?,?,?,?,?)");
+        $consulta->bindValue(1,$nombre);
+        $consulta->bindValue(2,$precio);
+        $consulta->bindValue(3,$img);
+        $consulta->bindValue(4,$categoria);
+        $consulta->bindValue(5,$ivaR);
+        $consulta->bindValue(6,1);
+
+        $consulta->execute();
+
+        $con = null; // Cerrar conexión
+
+    }
+
+    /**
+     * BORRAR PRODUCTO
+     */
+    function borrarProducto($id) {
+
+        $con = conexion("php","root","toor");
+
+        //Insertar usuario
+        $consulta = $con->prepare("DELETE FROM productos WHERE id=?");
+        $consulta->bindValue(1,$id);
+
+        $consulta->execute();
+
+        $con = null; // Cerrar conexión
+
+    }
+
+        //Función que dado un id de producto te devuelve el producto entero con la información que tiene en la sesión
+        function buscarProducto($idProducto) {
+            $con = conexion("php","root","toor");
+
+            $consulta = $con->prepare("SELECT * FROM productos WHERE id=?");
+            $consulta->bindValue(1,$idProducto);
+            $consulta->setFetchMode(PDO::FETCH_ASSOC);
+            $consulta->execute();
+    
+            if ($producto = $consulta->fetch()) { 
+                return $producto;
+            }
+            $con = null;
+    
+            return array();
+        }
+
+        /**
+     * MODIFICAR PRODUCTO
+     */
+    function modificarProducto($id, $nombre, $precio, $img, $categoria, $ivaR) {
+
+        $con = conexion("php","root","toor");
+
+        //Insertar usuario
+        $consulta = $con->prepare("UPDATE productos SET nombre=?, precio=?, img=?, categoria=?, ivaR=? WHERE id=?");
+        $consulta->bindValue(1,$nombre);
+        $consulta->bindValue(2,$precio);
+        $consulta->bindValue(3,$img);
+        $consulta->bindValue(4,$categoria);
+        $consulta->bindValue(5,$ivaR);
+        $consulta->bindValue(6,$id);
+
+        $consulta->execute();
+
+        $con = null; // Cerrar conexión
+
+    }
 
 ?>

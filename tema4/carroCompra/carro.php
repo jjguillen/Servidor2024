@@ -10,13 +10,15 @@
             <hr class="text-dark mb-4">
 
 <?php
-      //Leer la cookie, desencriptándola
-      $cipher = "aes-128-cbc";
-      $ivlen = openssl_cipher_iv_length($cipher);
-      $iv = "1234567812345678";
-      $key = "hljisaeypflajelakelvlealelakalll";
-      $cookieDecrypted = openssl_decrypt($_COOKIE["CategoriaPCC"], $cipher, $key, $options=0, $iv);
-      echo "<h4 class='text-danger'>".$cookieDecrypted."</h4>";
+      if (isset($_COOKIE["CategoriaPCC"])) {
+        //Leer la cookie, desencriptándola
+        $cipher = "aes-128-cbc";
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $iv = "1234567812345678";
+        $key = "hljisaeypflajelakelvlealelakalll";
+        $cookieDecrypted = openssl_decrypt($_COOKIE["CategoriaPCC"], $cipher, $key, $options=0, $iv);
+        echo "<h4 class='text-danger'>".$cookieDecrypted."</h4>";
+      }
 
 
       //Productos que están en el carro de la compra, lo sacamos de la sesión

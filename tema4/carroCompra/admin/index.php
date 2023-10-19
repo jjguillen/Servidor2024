@@ -16,6 +16,8 @@
 
 	<title>Admin - PCComponents</title>
 
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link href="css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -34,7 +36,7 @@
 					</li>
 
 					<li class="sidebar-item active">
-						<a class="sidebar-link" href="index.html">
+						<a class="sidebar-link" href="index.php">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Productos</span>
             </a>
 					</li>
@@ -82,82 +84,42 @@
 			<main class="content">
 				<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+					<h1 class="h3 mb-3"><strong>Productos</strong></h1>
 
 					<div class="row">
 						<div class="col-12 col-lg-10 col-xxl-11 d-flex">
 							<div class="card flex-fill">
 								<div class="card-header">
 
-									<h5 class="card-title mb-0">Latest Projects</h5>
+									<button type="button" class='btn btn-primary' data-bs-toggle="modal" data-bs-target="#addProducto">Nuevo</button>
 								</div>
 								<table class="table table-hover my-0">
 									<thead>
 										<tr>
 											<th>Name</th>
-											<th class="d-none d-xl-table-cell">Start Date</th>
-											<th class="d-none d-xl-table-cell">End Date</th>
-											<th>Status</th>
-											<th class="d-none d-md-table-cell">Assignee</th>
+											<th class="d-none d-xl-table-cell">Precio</th>
+											<th class="d-none d-xl-table-cell">Imagen</th>
+											<th class="d-none d-md-table-cell">Categoría</th>
+											<th class="d-none d-md-table-cell">Acciones</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>Project Apollo</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Vanessa Tucker</td>
-										</tr>
-										<tr>
-											<td>Project Fireball</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-danger">Cancelled</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
-										</tr>
-										<tr>
-											<td>Project Hades</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Sharon Lessman</td>
-										</tr>
-										<tr>
-											<td>Project Nitro</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-warning">In progress</span></td>
-											<td class="d-none d-md-table-cell">Vanessa Tucker</td>
-										</tr>
-										<tr>
-											<td>Project Phoenix</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
-										</tr>
-										<tr>
-											<td>Project X</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Sharon Lessman</td>
-										</tr>
-										<tr>
-											<td>Project Romeo</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-success">Done</span></td>
-											<td class="d-none d-md-table-cell">Christina Mason</td>
-										</tr>
-										<tr>
-											<td>Project Wombat</td>
-											<td class="d-none d-xl-table-cell">01/01/2023</td>
-											<td class="d-none d-xl-table-cell">31/06/2023</td>
-											<td><span class="badge bg-warning">In progress</span></td>
-											<td class="d-none d-md-table-cell">William Harris</td>
-										</tr>
+<?php
+		include_once("../lib.php");
+		$productos = consultarProductos();
+
+		foreach($productos as $producto) {
+			echo "<tr>";
+			echo "<td>".$producto["nombre"]."</th>";
+			echo "<td class='d-none d-xl-table-cell'>".$producto["precio"]." €</td>";
+			echo "<td class='d-none d-xl-table-cell'><img style='width: 6rem;' src='../".$producto["img"]."' class='card-img-top' alt='".$producto["nombre"]."'></td>";
+			
+			echo "<td class='d-none d-md-table-cell'>".$producto["categoria"]."</td>";
+			echo "<td class='d-none d-md-table-cell'><a href='../controlador.php?accion=borrarProducto&id=".$producto["id"]."'><button class='btn btn-danger'>X</button></a>";
+			echo "<a href='./modificarProducto.php?id=".$producto["id"]."' class='ms-2'><button class='btn btn-success'>@</button></a></td>";
+			echo "</tr>";
+		}
+?>
 									</tbody>
 								</table>
 							</div>
@@ -421,6 +383,73 @@
 			});
 		});
 	</script>
+
+
+
+<!-- MODALES -->
+
+<!-- Modal para añadir producto -->
+<div class="modal fade" id="addProducto" tabindex="-1" aria-labelledby="addProducto">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Añadir producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+		<form action="../controlador.php" method="POST" id="formNuevoProducto">
+			<div class="mb-3 row">
+				<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+				<div class="col-sm-10">
+				<input type="text" class="form-control-plaintext" id="nombre" name="nombre" placeholder="producto" required>
+				</div>
+			</div>
+
+			<div class="mb-3 row">
+				<label for="precio" class="col-sm-2 col-form-label">Precio</label>
+				<div class="col-sm-10">
+				<input type="number" class="form-control-plaintext" id="precio" name="precio" min="1" placeholder="100" required>
+				</div>
+			</div>
+
+			<div class="mb-3 row">
+				<label for="img" class="col-sm-2 col-form-label">Imagen</label>
+				<div class="col-sm-10">
+				<input type="text" class="form-control-plaintext" id="img" name="img" placeholder="../img/productos/pr1.webp" required>
+				</div>
+			</div>
+
+			<div class="mb-3 row">
+				<label for="categoria" class="col-sm-2 col-form-label">Categoría</label>
+				<div class="col-sm-10">
+					<select class="form-select" aria-label="Default select example" name="categoria">
+						<option selected value="procesadores">Procesadores</option>
+						<option value="teclados">Teclados</option>
+						<option value="ratones">Ratones</option>
+						<option value="monitores">Monitores</option>
+						<option value="graficas">Gráficas</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="mb-3 row">
+				<label for="ivaR" class="col-sm-2 form-check-label">Iva Red.</label>
+				<div class="col-sm-10">
+				<input class="form-check-input" type="checkbox" checked name="ivaR" id="ivaR">
+				</div>
+			</div>
+		</form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" form="formNuevoProducto" class="btn btn-primary" name="nuevoProducto">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 </body>
 

@@ -1,5 +1,4 @@
-1. Si está el usuario mostrar el botón de añadir producto
+PENDIENTE
+1. Formulario de añadir producto con input file (ver tema3)
+2. Generar PDF con un botón de comprar en el carro de la compra
 
-EXTRA
-1. Login con cookies
-2. 
