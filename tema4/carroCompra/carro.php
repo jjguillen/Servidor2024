@@ -79,7 +79,7 @@
 
       echo "<br>";
       if (isset($_SESSION['usuario']))
-        echo "<button class='btn btn-success'>Comprar</button>";
+        echo "<a href='controlador.php?accion=comprar'><button class='btn btn-success'>Comprar</button></a>";
 
 
 ?>

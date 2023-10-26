@@ -178,16 +178,68 @@
 
         $con = conexion("php","root","toor");
 
-        //Insertar usuario
-        $consulta = $con->prepare("UPDATE productos SET nombre=?, precio=?, img=?, categoria=?, ivaR=? WHERE id=?");
-        $consulta->bindValue(1,$nombre);
-        $consulta->bindValue(2,$precio);
-        $consulta->bindValue(3,$img);
-        $consulta->bindValue(4,$categoria);
-        $consulta->bindValue(5,$ivaR);
-        $consulta->bindValue(6,$id);
+        if (strcmp($img,"") == 0) {
+            $consulta = $con->prepare("UPDATE productos SET nombre=:nombre, precio=:precio, categoria=:categoria, ivaR=:ivaR WHERE id=:id");
+
+        } else {
+            $consulta = $con->prepare("UPDATE productos SET nombre=:nombre, precio=:precio, img=:img, categoria=:categoria, ivaR=:ivaR WHERE id=:id");
+            $consulta->bindValue(":img",$img);
+        }
+
+        $consulta->bindValue(":nombre",$nombre);
+        $consulta->bindValue(":precio",$precio);
+        $consulta->bindValue(":categoria",$categoria);
+        $consulta->bindValue(":ivaR",$ivaR);
+        $consulta->bindValue(":id",$id);
 
         $consulta->execute();
+
+        $con = null; // Cerrar conexión
+
+    }
+
+
+
+    /**
+     * INSERTAR PEDIDO
+     */
+    function realizarPedido($carro) {
+
+        $con = conexion("php","root","toor");
+
+        try {
+
+            $con->beginTransaction();
+
+            //Insertar usuario
+            $consulta = $con->prepare("INSERT INTO pedidos (codigo, fecha, cliente)  VALUES (?,?,?)");
+            $consulta->bindValue(1,"PR000-".rand(1,100000));
+            $consulta->bindValue(2,date('Y-m-d H:i:s'));
+            $consulta->bindValue(3,$_SESSION['usuario']['email']);
+            
+            $consulta->execute();
+
+            $idPedido = $con->lastInsertId();
+
+            //Insertamos las líneas del pedido
+            foreach($carro as $linea) {
+                $consulta = $con->prepare("INSERT INTO lineasPedido (id_pedido, nombre, precio, cantidad, id_producto)  VALUES (?,?,?,?,?)");
+                $consulta->bindValue(1,$idPedido);
+                $consulta->bindValue(2, $linea['nombre']);
+                $consulta->bindValue(3, $linea['precio']);
+                $consulta->bindValue(4, $linea['cantidad']);
+                $consulta->bindValue(5, $linea['id']);
+
+                $consulta->execute();
+
+            }
+
+            $con->commit();
+        } catch (Exception $e){
+
+            $con->rollBack();
+        }
+
 
         $con = null; // Cerrar conexión
 

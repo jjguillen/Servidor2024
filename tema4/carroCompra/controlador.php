@@ -74,7 +74,6 @@
         if (isset($_POST["nuevoProducto"])) {
             $nombre = $_POST['nombre'];
             $precio = $_POST['precio'];
-            $img = $_POST['img'];
             $categoria = $_POST['categoria'];
 
             if (isset($_POST['ivaR'])) {
@@ -82,6 +81,27 @@
             } else {
                 $ivaR = 0;
             }
+
+            //Subir imagen
+            $img = "";
+            if(!isset($_FILES["img"])) {
+                //echo "No estoy recibiendo el archivo";
+            } elseif($_FILES["img"]["size"] == 0) {
+                //Si el tamaño es 0, es porque el archivo no se envía al servidor
+                //y puede ser porque supera MAX_FILE_SIZE del formulario o de php.ini
+                //echo "El archivo no ha llegado correctamente";
+            } elseif($_FILES["img"]["type"] != 'image/jpeg' && $_FILES["img"]["type"] != 'image/png' && $_FILES["img"]["type"] != 'image/webp') {
+                //echo "No se permiten archivos diferentes de jpg";
+                //Esto no es seguro porque sólo comprueba la extensión del fichero.
+            } else {
+                //Nos podemos fiar sólo en parte
+                $destino = "./img/productos/" . $_FILES["img"]["name"];
+                if(move_uploaded_file($_FILES["img"]["tmp_name"], $destino)) {
+                    //echo "Tu archivo ha sido cargado correctamente";
+                    $img = "img/productos/" . $_FILES["img"]["name"];
+                }
+                
+            } 
 
             insertarProducto($nombre, $precio, $img, $categoria, $ivaR);
 
@@ -95,7 +115,6 @@
         if (isset($_POST["modificarProducto"])) {
             $nombre = $_POST['nombre'];
             $precio = $_POST['precio'];
-            $img = $_POST['img'];
             $categoria = $_POST['categoria'];
             $id = $_POST['id'];
 
@@ -104,6 +123,26 @@
             } else {
                 $ivaR = 0;
             }
+
+            //Subir imagen
+            $img = "";
+            if(!isset($_FILES["img"])) {
+                //echo "No estoy recibiendo el archivo";
+            } elseif($_FILES["img"]["size"] == 0) {
+                //Si el tamaño es 0, es porque el archivo no se envía al servidor
+                //y puede ser porque supera MAX_FILE_SIZE del formulario o de php.ini
+                //echo "El archivo no ha llegado correctamente";
+            } elseif($_FILES["img"]["type"] != 'image/jpeg' && $_FILES["img"]["type"] != 'image/png' && $_FILES["img"]["type"] != 'image/webp') {
+                //echo "No se permiten archivos diferentes de jpg";
+                //Esto no es seguro porque sólo comprueba la extensión del fichero.
+            } else {
+                //Nos podemos fiar sólo en parte
+                $destino = "./img/productos/" . $_FILES["img"]["name"];
+                if(move_uploaded_file($_FILES["img"]["tmp_name"], $destino)) {
+                    //echo "Tu archivo ha sido cargado correctamente";
+                    $img = "img/productos/" . $_FILES["img"]["name"];
+                }    
+            } 
 
             modificarProducto($id, $nombre, $precio, $img, $categoria, $ivaR);
 
@@ -225,6 +264,14 @@
 
                 //REDIRIGIR A INDEX.HTML
                 header("Location: admin/index.php");
+                die();
+            }
+
+            if (strcmp($_GET['accion'],"comprar") == 0) {
+                //Generar un pedido
+                realizarPedido($_SESSION['carro']);
+
+                header("Location: generarPDF.php");
                 die();
             }
 

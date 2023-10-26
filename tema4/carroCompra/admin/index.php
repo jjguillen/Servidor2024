@@ -398,7 +398,7 @@
       </div>
       <div class="modal-body">
 
-		<form action="../controlador.php" method="POST" id="formNuevoProducto">
+		<form action="../controlador.php" method="POST" id="formNuevoProducto" enctype="multipart/form-data">
 			<div class="mb-3 row">
 				<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
 				<div class="col-sm-10">
@@ -416,7 +416,7 @@
 			<div class="mb-3 row">
 				<label for="img" class="col-sm-2 col-form-label">Imagen</label>
 				<div class="col-sm-10">
-				<input type="text" class="form-control-plaintext" id="img" name="img" placeholder="../img/productos/pr1.webp" required>
+				<input type="file" class="form-control-plaintext" id="img" name="img" placeholder="../img/productos/pr1.webp" required>
 				</div>
 			</div>
 

@@ -99,7 +99,7 @@
 		//Consultar el producto a modificar
 		$producto = buscarProducto($_GET['id']);
 ?>							
-								<form action="../controlador.php" method="POST" id="modificarProductoForm">
+								<form action="../controlador.php" method="POST" id="modificarProductoForm" enctype="multipart/form-data">
 									<div class="mb-3 row">
 										<label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
 										<div class="col-sm-7">
@@ -117,7 +117,7 @@
 									<div class="mb-3 row">
 										<label for="img" class="col-sm-2 col-form-label">Imagen</label>
 										<div class="col-sm-7">
-										<input type="text" class="form-control-plaintext" id="img" name="img" value="<?= $producto['img']; ?>" >
+										<input type="file" class="form-control-plaintext" id="img" name="img" value="<?= $producto['img']; ?>" >
 										</div>
 									</div>
 
