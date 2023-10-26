@@ -1,4 +1,6 @@
 PENDIENTE
 1. Formulario de añadir producto con input file (ver tema3)
 2. Generar PDF con un botón de comprar en el carro de la compra
+3. Mockaroo
+4. Prácticas del libro de McGraw-Hill ***
 
