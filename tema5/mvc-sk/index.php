@@ -5,13 +5,11 @@
     //Autocargar las clases --------------------------
     spl_autoload_register(function ($class) {
         
-        echo "Autoload ".$class;
-        include 'classes/' . $class . '.class.php';
+        //echo substr($class, strpos($class,"\\")+1);
+        //include_once ".\\" . substr($class, strpos($class,"\\")+1) . '.php';
+        include_once "./controladores/ControladorDeepRacer.php";
     });
     //Fin Autcargar ----------------------------------
-
-
-
 
 
     if ($_REQUEST) {
@@ -21,7 +19,6 @@
     } else {
         //Mostrar inicio
         echo "Inicio";
-
         ControladorDeepRacer::mostrarInicio();
     }
 
