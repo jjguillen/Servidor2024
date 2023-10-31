@@ -4,22 +4,25 @@
 
     //Autocargar las clases --------------------------
     spl_autoload_register(function ($class) {
-        
         //echo substr($class, strpos($class,"\\")+1);
-        //include_once ".\\" . substr($class, strpos($class,"\\")+1) . '.php';
-        include_once "./controladores/ControladorDeepRacer.php";
+        $ruta = substr($class, strpos($class,"\\")+1);
+        $ruta = str_replace("\\", "/", $ruta);
+        include_once "./" . $ruta . ".php"; 
     });
     //Fin Autcargar ----------------------------------
 
 
-    if ($_REQUEST) {
+    if (isset($_REQUEST)) {
         //Tratamiento de botones, forms, ...
+        if (isset($_REQUEST["accion"])) {
+            echo "Tratar acción";
 
 
-    } else {
-        //Mostrar inicio
-        echo "Inicio";
-        ControladorDeepRacer::mostrarInicio();
+
+        } else {
+            //Mostrar inicio
+            ControladorDeepRacer::mostrarInicio();
+        }
     }
 
 

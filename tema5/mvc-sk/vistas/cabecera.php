@@ -51,12 +51,12 @@
     <h1 class="visually-hidden">Resultados DeepRacer</h1>
 
     <div class="px-4 py-5 my-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <img class="d-block mx-auto mb-4" src="./vistas/imgs/deepracer.png" alt="" width="100" >
         <h1 class="display-5 fw-bold">Deep Racer Almería</h1>
         <div class="col-lg-6 mx-auto">
         <p class="lead mb-4">Aquí vamos a mostrar nuestros resultados en la liga DeepRacer</p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Mi liga button</button>
+            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Mi liga</button>
         </div>
         </div>
     </div>
