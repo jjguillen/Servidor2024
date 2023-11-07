@@ -2,7 +2,6 @@
     namespace DeepRacer;
     use DeepRacer\controladores\ControladorDeepRacer;
     use DeepRacer\controladores\ControladorDeepRacerIntentos;
-    use DeepRacer\modelos\Resultado;
     use DeepRacer\modelos\Intento;
 
     //Autocargar las clases --------------------------
