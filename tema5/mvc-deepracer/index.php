@@ -3,6 +3,7 @@
     use DeepRacer\controladores\ControladorDeepRacer;
     use DeepRacer\controladores\ControladorDeepRacerIntentos;
     use DeepRacer\modelos\Intento;
+    use DeepRacer\modelos\Resultado;
 
     //Autocargar las clases --------------------------
     spl_autoload_register(function ($class) {
