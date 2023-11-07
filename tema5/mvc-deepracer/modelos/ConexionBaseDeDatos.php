@@ -10,11 +10,11 @@ class ConexionBaseDeDatos {
 
     public function __construct() {
     
-        $host = '172.17.0.2:3306'; //La IP del contenedor Mysql, y el puerto interno del contenedor
+        $host = '172.18.0.2:3306'; //La IP del contenedor Mysql, y el puerto interno del contenedor
     
             try {
                 if ($this->conexion == null) {
-                    $this->conexion = new PDO("mysql:host=" . $host . ";dbname=" . "deepracer", "root", "toor");
+                    $this->conexion = new PDO("mysql:host=" . $host . ";dbname=" . "ejemplo", "root", "toor");
                     $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     $this->conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 } 

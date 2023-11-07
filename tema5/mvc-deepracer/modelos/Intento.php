@@ -1,23 +1,25 @@
 <?php
-    namespace DeepRacer\modelos;
 
-    class Resultado {
+namespace DeepRacer\modelos;
+
+    class Intento {
 
         private $id;
-        private $modelo;
+        private $nombre;
         private $pista;
         private $tiempo;
         private $colisiones;
 
-        public function __construct($id="",$modelo="",$pista="",$tiempo="",$colisiones="")
-        {
+        public function __construct($id="", $nombre="", $pista="", $tiempo="", $colisiones="") {
+
             $this->id = $id;
-            $this->modelo = $modelo;
+            $this->nombre = $nombre;
             $this->pista = $pista;
             $this->tiempo = $tiempo;
             $this->colisiones = $colisiones;
         }
 
+        
 
 
         /**
@@ -41,21 +43,21 @@
         }
 
         /**
-         * Get the value of modelo
+         * Get the value of nombre
          */ 
-        public function getModelo()
+        public function getNombre()
         {
-                return $this->modelo;
+                return $this->nombre;
         }
 
         /**
-         * Set the value of modelo
+         * Set the value of nombre
          *
          * @return  self
          */ 
-        public function setModelo($modelo)
+        public function setNombre($nombre)
         {
-                $this->modelo = $modelo;
+                $this->nombre = $nombre;
 
                 return $this;
         }
@@ -79,7 +81,7 @@
 
                 return $this;
         }
-        
+
         /**
          * Get the value of tiempo
          */ 
@@ -99,8 +101,6 @@
 
                 return $this;
         }
-
-        
 
         /**
          * Get the value of colisiones
@@ -122,3 +122,4 @@
                 return $this;
         }
     }
+?>

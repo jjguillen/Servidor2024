@@ -5,6 +5,8 @@
     use DeepRacer\vistas\VistaInicio;
     use DeepRacer\modelos\ModeloResultados;
     use DeepRacer\vistas\VistaResultados;
+    use DeepRacer\vistas\VistaResultadosForm;
+    use DeepRacer\vistas\VistaResultadosFormUpdate;
 
     class ControladorDeepRacer {
 
@@ -37,6 +39,38 @@
             VistaResultados::render($resultados);
         }
 
+        /**
+         * Método que muestra el formulario para insertar un nuevo resultado
+         */
+        public static function mostrarFormNuevoResultado() {
+            VistaResultadosForm::render();
+        }
+
+        /**
+         * Método que inserta en BBDD un objeto Resultado
+         */
+        public static function insertarNuevoResultado($resultado) {
+            ModeloResultados::insertar($resultado);
+
+            $resultados = ModeloResultados::mostrarTodos();
+            VistaResultados::render($resultados);
+        }
+
+        /**
+         * Método que muestra una vista con el formulario para modificar un resultado
+         */
+        public static function mostrarFormModificarResultado($id) {
+            $resultado = ModeloResultados::getResultado($id);
+            
+            VistaResultadosFormUpdate::render($resultado);
+        }
+
+        public static function modificarResultado($resultado) {
+            ModeloResultados::modificarResultado($resultado);
+
+            $resultados = ModeloResultados::mostrarTodos();
+            VistaResultados::render($resultados);
+        }
 
 
     }
