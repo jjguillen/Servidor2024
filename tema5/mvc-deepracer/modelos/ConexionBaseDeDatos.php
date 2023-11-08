@@ -10,7 +10,7 @@ class ConexionBaseDeDatos {
 
     public function __construct() {
     
-        $host = '172.18.0.2:3306'; //La IP del contenedor Mysql, y el puerto interno del contenedor
+        $host = 'mariadb:3306'; //La IP del contenedor Mysql, y el puerto interno del contenedor
     
             try {
                 if ($this->conexion == null) {
