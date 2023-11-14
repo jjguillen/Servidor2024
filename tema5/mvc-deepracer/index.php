@@ -1,5 +1,9 @@
 <?php
     namespace DeepRacer;
+
+    session_start();
+    //session_destroy();
+
     use DeepRacer\controladores\ControladorDeepRacer;
     use DeepRacer\controladores\ControladorDeepRacerIntentos;
     use DeepRacer\modelos\Intento;
@@ -21,7 +25,26 @@
             
             //MOSTRAR TODOS LOS RESULTADOS
             if (strcmp($_REQUEST['accion'],'mostrarTodos') == 0) {
-                ControladorDeepRacer::mostrarTodos();
+                //Comprobar si estamos logueados
+                if (isset($_SESSION['usuario'])) {
+                    ControladorDeepRacer::mostrarTodos();
+                } else {
+                    //Pintar login
+                    ControladorDeepRacer::mostrarFormLogin("");
+                }
+            }
+
+            //CERRAR SESIÓN
+            if (strcmp($_REQUEST['accion'],'cerrarSesion') == 0) {
+                session_destroy();
+                header("Location: index.php?accion=mostrarTodos");
+            }
+
+            //RECOGER FORM LOGIN Y MOSTRAR
+            if (strcmp($_REQUEST['accion'],'loginUsuarios') == 0) {
+                $email = $_REQUEST['email'];
+                $password = $_REQUEST['password'];
+                ControladorDeepRacer::checkLogin($email, $password);
             }
 
             //ELIMINAR UN RESULTADO

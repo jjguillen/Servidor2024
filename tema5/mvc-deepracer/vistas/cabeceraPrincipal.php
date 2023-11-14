@@ -17,6 +17,14 @@
         </a>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li>
+<?php
+    $usuario = unserialize($_SESSION['usuario']);
+    echo '<a href="index.php?accion=cerrarSesion" class="nav-link px-2 link-secondary">';
+    echo $usuario->getEmail() . "[X]";
+    echo "</a>";
+?>
+            </li>
             <li><a href="index.php?accion=mostrarTodos" class="nav-link px-2 link-secondary">Resultados</a></li>
             
             

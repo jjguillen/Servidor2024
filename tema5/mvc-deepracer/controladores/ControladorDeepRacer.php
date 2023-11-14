@@ -4,9 +4,11 @@
 
     use DeepRacer\vistas\VistaInicio;
     use DeepRacer\modelos\ModeloResultados;
+    use DeepRacer\modelos\ModeloUsuarios;
     use DeepRacer\vistas\VistaResultados;
     use DeepRacer\vistas\VistaResultadosForm;
     use DeepRacer\vistas\VistaResultadosFormUpdate;
+    use DeepRacer\vistas\VistaUsuarios;
 
     class ControladorDeepRacer {
 
@@ -17,6 +19,31 @@
             VistaInicio::render();
         }
 
+        /** 
+         * Pintar formulario de login usuairo
+         */
+        public static function mostrarFormLogin($error) {
+            VistaUsuarios::render($error);
+        }
+
+        /** 
+         * Comprobar si el login es correcto o no
+        */
+        public static function checkLogin($email, $password) {
+            $resultado = ModeloUsuarios::checkLogin($email, $password); 
+
+            //Según login muestro otra vez el login o muestro los resultados
+            if ($resultado == false) {
+                ControladorDeepRacer::mostrarFormLogin("Datos incorrectos");
+            } else {
+                //Meter en la sesión el usuario
+                $_SESSION['usuario'] = serialize($resultado);
+
+                //Pintamos resultados
+                $resultados = ModeloResultados::mostrarTodos();
+                VistaResultados::render($resultados);
+            }
+        }
 
         /**
          * Método que muestra todos los resultados
