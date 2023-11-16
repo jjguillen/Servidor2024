@@ -18,7 +18,7 @@
 <?php
 
 //$uri = "https://www.googleapis.com/books/v1/volumes?q=".urlencode($_GET['titulo']); 
-$uri = "https://api.openweathermap.org/data/3.0/onecall?lat=37.296944&lon=-1.879722&appid=4905513ab3581cf2aa87efb92271ea3e";       
+$uri = "https://api.openweathermap.org/data/3.0/onecall?lat=37.296944&lon=-1.879722&appid={api_key}";       
 $reqPrefs['http']['method'] = 'GET';
 $reqPrefs['http']['header'] = 'X-Auth-Token: ';
 $stream_context = stream_context_create($reqPrefs);
@@ -29,7 +29,7 @@ if ($resultado != false) {
     $respPHP = json_decode($resultado);
 
     echo $respPHP->current->temp . "<br>";
-    
+
        
 
 
