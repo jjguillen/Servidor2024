@@ -11,40 +11,28 @@
 <body>
     <div class='container'>
 
-        <h3 class='mb-3'>Kitsu</h3>
+        <h3 class='mb-3'>Predicción tiempo Cuevas de Almanzora</h3>
 
         <div class='row'>
     
 <?php
 
-
-$uri = "https://kitsu.io/api/edge/trending/anime";       
+//$uri = "https://www.googleapis.com/books/v1/volumes?q=".urlencode($_GET['titulo']); 
+$uri = "https://api.openweathermap.org/data/3.0/onecall?lat=37.296944&lon=-1.879722&appid=4905513ab3581cf2aa87efb92271ea3e";       
 $reqPrefs['http']['method'] = 'GET';
 $reqPrefs['http']['header'] = 'X-Auth-Token: ';
 $stream_context = stream_context_create($reqPrefs);
 $resultado = file_get_contents($uri, false, $stream_context);
 
-//echo $resultado;
-
-
 //Pasar de json a objeto php y recorrer los resultados
-
 if ($resultado != false) {
     $respPHP = json_decode($resultado);
 
-    foreach($respPHP->data as $weapon) {
-        echo "
-        <div class='card' style='width: 18rem;'>
-            <img src='{$weapon->attributes->posterImage->small}' class='card-img-top' alt='...'>
-            <div class='card-body'>
-                <h5 class='card-title'>{$weapon->attributes->titles->en_jp}</h5>
-                <p class='card-text'><a href='kitsu-detalle.php?url=https://kitsu.io/api/edge/anime/46873/relationships/episodes'>Episodios</a></p>
-            </div>
-        </div>
-        ";
+    echo $respPHP->current->temp . "<br>";
+    
+       
 
 
-    }
 }
 
 

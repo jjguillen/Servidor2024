@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hola Mundo</h1>
+
+    <button id="boton">Carga el tiempo</button>
+    <div id="contenido"></div>
+
+    <script>
+
+        document.getElementById("boton").onclick = mostrarTiempo2;
+
+        function mostrarTiempo() {
+            fetch("https://api.openweathermap.org/data/3.0/onecall?lat=37.296944&lon=-1.879722&appid=035a94f111a3ebb6eab27c32f0872a8f")
+                .then(response => response.text())
+                .then(data => { 
+                    console.log(data);
+                    tiempo = JSON.parse(data);
+                    document.getElementById("contenido").innerHTML = tiempo.current.temp;
+                })
+                .finally(() => console.log("Terminado."))
+                .catch(error => console.error(data));
+        }
+
+        async function mostrarTiempo2() {
+            const response = await fetch("https://api.openweathermap.org/data/3.0/onecall?lat=37.296944&lon=-1.879722&appid=035a94f111a3ebb6eab27c32f0872a8f");
+            const data = await response.text();
+                
+            tiempo = JSON.parse(data);
+            document.getElementById("contenido").innerHTML = tiempo.current.temp;
+               
+        }
+
+
+    </script>
+
+
+</body>
+</html>

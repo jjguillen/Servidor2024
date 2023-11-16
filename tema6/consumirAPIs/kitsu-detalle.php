@@ -17,8 +17,9 @@
     
 <?php
 
+$url = $_GET['url'];
 
-$uri = "https://kitsu.io/api/edge/trending/anime";       
+$uri = $url;       
 $reqPrefs['http']['method'] = 'GET';
 $reqPrefs['http']['header'] = 'X-Auth-Token: ';
 $stream_context = stream_context_create($reqPrefs);
@@ -32,19 +33,20 @@ $resultado = file_get_contents($uri, false, $stream_context);
 if ($resultado != false) {
     $respPHP = json_decode($resultado);
 
-    foreach($respPHP->data as $weapon) {
-        echo "
-        <div class='card' style='width: 18rem;'>
-            <img src='{$weapon->attributes->posterImage->small}' class='card-img-top' alt='...'>
-            <div class='card-body'>
-                <h5 class='card-title'>{$weapon->attributes->titles->en_jp}</h5>
-                <p class='card-text'><a href='kitsu-detalle.php?url=https://kitsu.io/api/edge/anime/46873/relationships/episodes'>Episodios</a></p>
-            </div>
-        </div>
-        ";
+    foreach($respPHP->data as $episodio) {
+    
+        $uri = "https://kitsu.io/api/edge/episodes/".$episodio->id;       
+        $reqPrefs['http']['method'] = 'GET';
+        $reqPrefs['http']['header'] = 'X-Auth-Token: ';
+        $stream_context = stream_context_create($reqPrefs);
+        $resultado = file_get_contents($uri, false, $stream_context);
 
+        $json = json_decode($resultado);
 
+        echo $json->data->attributes->canonicalTitle . "<br>";
     }
+
+
 }
 
 
