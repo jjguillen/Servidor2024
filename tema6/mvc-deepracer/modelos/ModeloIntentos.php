@@ -13,25 +13,26 @@
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("SELECT id,nombre,pista,tiempo,colisiones FROM intentos WHERE id_resultado=?");
-            $consulta->bindValue(1, $idResultado);
-            $consulta->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'DeepRacer\modelos\Intento'); //Nombre de la clase
-            $consulta->execute();
-    
-            $intentos = $consulta->fetchAll();
+            $valor = $conexion->resultados->findOne([ 'id' => intVal($idResultado)]);
+
+            $intentos = array();
+            foreach($valor['intentos'] as $intento) {
+                $intento = new Intento($intento['id'], $intento['nombre'], $intento['pista'], $intento['tiempo'], $intento['colisiones']);
+
+                array_push($intentos, $intento);
+            }
 
             $conexionObject->cerrarConexion();
 
             return $intentos;
         }
 
-        public static function eliminarIntento($id) {
+        public static function eliminarIntento($id, $idResultado) {
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("DELETE FROM intentos WHERE id=:id");
-            $consulta->bindValue(":id", $id);
-            $consulta->execute();
+            $deleteResult = $conexion->resultados->updateOne(['id' => intVal($idResultado)],
+            [ '$pull' => ['intentos' => [ 'id' => intVal($id)]] ]);
 
             $conexionObject->cerrarConexion();
         }
@@ -41,13 +42,16 @@
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("INSERT INTO intentos (nombre, pista, tiempo, colisiones, id_resultado) VALUES (?,?,?,?,?)");
-            $consulta->bindValue(1, $intento->getNombre());
-            $consulta->bindValue(2, $intento->getPista());
-            $consulta->bindValue(3, $intento->getTiempo());
-            $consulta->bindValue(4, $intento->getColisiones());
-            $consulta->bindValue(5, $idResultado);
-            $consulta->execute();
+            //Sacar todos los ids de intentos
+            $intentos = $conexion->resultados->find([], ['projection' => ['intentos.id' => 1]]);
+            var_dump($intentos);
+
+            $deleteResult = $conexion->resultados->updateOne(['id' => intVal($idResultado)],
+            [ '$push' => ['intentos' => [ 'id' => intVal(10),
+                                          'nombre' => $intento->getNombre(),
+                                          'pista' => $intento->getPista(),
+                                          'tiempo' => intVal($intento->getTiempo()),
+                                          'colisiones' => intVal($intento->getColisiones()) ]] ]);
 
             $conexionObject->cerrarConexion();
         }

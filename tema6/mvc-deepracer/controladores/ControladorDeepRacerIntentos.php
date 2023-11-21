@@ -17,7 +17,7 @@
         }
 
         public static function eliminarIntento($id, $idResultado) {
-            ModeloIntentos::eliminarIntento($id);
+            ModeloIntentos::eliminarIntento($id, $idResultado);
             
             $intentos = ModeloIntentos::mostrarIntentos($idResultado);
             VistaIntentos::render($intentos, $idResultado);
