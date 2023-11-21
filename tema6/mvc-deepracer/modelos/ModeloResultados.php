@@ -4,6 +4,7 @@
     use DeepRacer\modelos\ConexionBaseDeDatos;
     use DeepRacer\modelos\Resultado;
     use \PDO;
+    use MongoDB\Client;
 
     class ModeloResultados {
 
@@ -13,11 +14,16 @@
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("SELECT * FROM resultados");
-            $consulta->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'DeepRacer\modelos\Resultado'); //Nombre de la clase
-            $consulta->execute();
-    
-            $resultados = $consulta->fetchAll();
+            $cursor = $conexion->resultados->find();
+
+            $resultados = array();
+            foreach ($cursor as $document) {
+                //Construimos objeto Resultado con los datos de MongoDB
+                $resultado = new Resultado($document['id'], $document['modelo'], $document['pista'], $document['tiempo'], $document['colisiones']);
+                
+                //Añadir el Resultado al array de resultados
+                array_push($resultados, $resultado);
+            }
 
             $conexionObject->cerrarConexion();
 
@@ -28,10 +34,8 @@
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("DELETE FROM resultados WHERE id=:id");
-            $consulta->bindValue(":id", $id);
-            $consulta->execute();
-
+            $deleteResult = $conexion->resultados->deleteOne(['id' => intVal($id)]);
+            
             $conexionObject->cerrarConexion();
         }
 
@@ -39,12 +43,25 @@
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("INSERT INTO resultados (modelo, pista, tiempo, colisiones) VALUES (?,?,?,?)");
-            $consulta->bindValue(1, $resultado->getModelo());
-            $consulta->bindValue(2, $resultado->getPista());
-            $consulta->bindValue(3, $resultado->getTiempo());
-            $consulta->bindValue(4, $resultado->getColisiones());
-            $consulta->execute();
+            //Hacer el autoincrement
+            //Ordeno por id, y me quedo con el mayor
+            $resultadoMayor = $conexion->resultados->findOne(
+                [],
+                [
+                    'sort' => ['id' => -1],
+                ]);
+            if (isset($resultadoMayor))
+                $idValue = $resultadoMayor['id'];
+            else
+                $idValue = 0;
+
+            $consulta = $conexion->resultados->insertOne([
+                'id' => intVal($idValue+1),
+                'modelo' => $resultado->getModelo(),
+                'pista' => $resultado->getPista(),
+                'tiempo' => intVal($resultado->getTiempo()),
+                'colisiones' => intVal($resultado->getColisiones())
+            ]);
 
             $conexionObject->cerrarConexion();
         }
@@ -55,29 +72,26 @@
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("SELECT * FROM resultados WHERE id=:id");
-            $consulta->bindValue(":id",$id);
-            $consulta->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'DeepRacer\modelos\Resultado'); //Nombre de la clase
-            $consulta->execute();
-    
-            $resultados = $consulta->fetch();
+            $valor = $conexion->resultados->findOne([ 'id' => intVal($id)]);
+
+            $resultado = new Resultado($valor['id'], $valor['modelo'], $valor['pista'], $valor['tiempo'], $valor['colisiones']);
+
             $conexionObject->cerrarConexion();
 
-            return $resultados;
+            return $resultado;
         }
 
         public static function modificarResultado($resultado) {
             $conexionObject = new ConexionBaseDeDatos();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("UPDATE resultados SET modelo=?, pista=?, tiempo=?, colisiones=? WHERE id=?");
-            $consulta->bindValue(1,$resultado->getModelo());
-            $consulta->bindValue(2,$resultado->getPista());
-            $consulta->bindValue(3,$resultado->getTiempo());
-            $consulta->bindValue(4,$resultado->getColisiones());
-            $consulta->bindValue(5,$resultado->getId());
-
-            $consulta->execute();
+            $updateResult = $conexion->resultados->updateOne(
+                ['id' => intVal($resultado->getId())],
+                ['$set' => ['modelo' => $resultado->getModelo(),
+                            'pista' => $resultado->getPista(),
+                            'tiempo' => intVal($resultado->getTiempo()),
+                            'colisiones' => intVal($resultado->getColisiones())]]
+            );
     
             $conexionObject->cerrarConexion();
         }

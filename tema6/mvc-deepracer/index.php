@@ -1,5 +1,8 @@
 <?php
     namespace DeepRacer;
+
+    require_once './vendor/autoload.php';
+    
     use DeepRacer\controladores\ControladorDeepRacer;
     use DeepRacer\controladores\ControladorDeepRacerIntentos;
     use DeepRacer\modelos\Intento;
