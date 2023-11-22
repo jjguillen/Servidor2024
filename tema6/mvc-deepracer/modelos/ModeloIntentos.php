@@ -16,12 +16,13 @@
             $valor = $conexion->resultados->findOne([ 'id' => intVal($idResultado)]);
 
             $intentos = array();
-            foreach($valor['intentos'] as $intento) {
-                $intento = new Intento($intento['id'], $intento['nombre'], $intento['pista'], $intento['tiempo'], $intento['colisiones']);
+            if (isset($valor['intentos'] )) {
+                foreach($valor['intentos'] as $intento) {
+                    $intento = new Intento($intento['id'], $intento['nombre'], $intento['pista'], $intento['tiempo'], $intento['colisiones']);
 
-                array_push($intentos, $intento);
+                    array_push($intentos, $intento);
+                }
             }
-
             $conexionObject->cerrarConexion();
 
             return $intentos;
@@ -43,16 +44,25 @@
             $conexion = $conexionObject->getConexion();
 
             //Sacar todos los ids de intentos
-            $intentos = $conexion->resultados->find([], ['projection' => ['intentos.id' => 1]]);
-            var_dump($intentos);
+            $match_stage = ['$match' => ['id' => intVal($idResultado)]];
+            $unwind_stage = ['$unwind' => '$intentos'];
+            $group_stage = ['$group' => ['_id' => '$id', 'max_id' => ['$max' => ['$toInt' => '$intentos.id']]]];
+
+            $resultado = $conexion->resultados->aggregate([$match_stage, $unwind_stage, $group_stage]);
+
+            $resultadoArray = $resultado->toArray();
+            if (count($resultadoArray) > 0)
+                $max_id = $resultadoArray[0]['max_id'];
+            else
+                $max_id = 0;
 
             $deleteResult = $conexion->resultados->updateOne(['id' => intVal($idResultado)],
-            [ '$push' => ['intentos' => [ 'id' => intVal(10),
+            [ '$push' => ['intentos' => [ 'id' => intVal($max_id + 1),
                                           'nombre' => $intento->getNombre(),
                                           'pista' => $intento->getPista(),
                                           'tiempo' => intVal($intento->getTiempo()),
                                           'colisiones' => intVal($intento->getColisiones()) ]] ]);
-
+            
             $conexionObject->cerrarConexion();
         }
 

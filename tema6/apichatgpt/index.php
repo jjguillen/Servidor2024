@@ -9,9 +9,9 @@ $texto = "Los coleccionistas de juegos retro";
 $textoArticulo = "Escribe un artículo sobre " . $texto;
 
 $response = $client->request('POST', 'https://api.openai.com/v1/chat/completions', [
-  'body' => '{"model": "gpt-3.5-turbo", "temperature": 0,  "messages": [{"role": "user", "content": "'.$textoArticulo.'"}]}',
+  'body' => '{"model": "gpt-4", "temperature": 0,  "messages": [{"role": "user", "content": "'.$textoArticulo.'"}]}',
   'headers' => [
-    'Authorization' => 'Bearer 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',
+    'Authorization' => 'Bearer xxxxxxxxx',
     'accept' => 'application/json',
     'content-type' => 'application/json',
   ],
@@ -19,9 +19,11 @@ $response = $client->request('POST', 'https://api.openai.com/v1/chat/completions
 
 $respuesta = $response->getBody();
 
+//echo $respuesta;
+
 $respuestaJSON = json_decode($respuesta);
 
-echo $respuestaJSON->choices[0]->text;
+echo $respuestaJSON->choices[0]->message->content;
 echo "<br>";
 
 /*
