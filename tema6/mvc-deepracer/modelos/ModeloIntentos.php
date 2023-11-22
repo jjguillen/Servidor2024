@@ -51,6 +51,7 @@
             $resultado = $conexion->resultados->aggregate([$match_stage, $unwind_stage, $group_stage]);
 
             $resultadoArray = $resultado->toArray();
+            
             if (count($resultadoArray) > 0)
                 $max_id = $resultadoArray[0]['max_id'];
             else
