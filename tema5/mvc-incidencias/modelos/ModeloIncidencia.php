@@ -8,7 +8,7 @@
 
         public static function mostrarIncidencias(){
 
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
             $consulta = $conexion->prepare("SELECT * FROM Incidencias");
@@ -22,9 +22,9 @@
             return $regalos;
         }
 
-        public static function editarIncidencia($id){
+        public static function getIncidencia($id){
 
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
             $consulta = $conexion->prepare("SELECT * FROM Incidencias WHERE id = ?");
@@ -32,7 +32,7 @@
             $consulta -> setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Incidencias\modelos\Incidencias'); //Nombre de la clase
             $consulta -> execute();
 
-            $regalos = $consulta->fetchAll();
+            $regalos = $consulta->fetch();
 
             $conexionObject -> cerrarConexion();
 
@@ -41,7 +41,7 @@
 
         public static function enviarModificarIncidencia($id, $solucion, $estado){
 
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
             $consulta = $conexion->prepare("UPDATE Incidencias SET solucion = ?, estado = ? where id = ? ");
@@ -54,7 +54,7 @@
         }
  
         public static function eliminarIncidencia($id){
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
             $consulta = $conexion->prepare("DELETE FROM Incidencias WHERE id = ?");
@@ -65,7 +65,7 @@
         }
 
         public static function enviarModificarIncidencias($latitud, $longitud, $ciudad, $direccion, $solucion, $estado, $id){
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
             $consulta = $conexion->prepare("INSERT INTO Incidencias (latitud, longitud, ciudad, direccion, solucion, estado, idCliente) VALUES (?,?,?,?,?,?,?)");
@@ -84,11 +84,12 @@
 
         public static function buscarIncidencia($incidencia){
 
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
-            $consulta = $conexion->prepare("SELECT * FROM Incidencias WHERE ciudad = ? OR estado LIKE '%$incidencia%'");
-            $consulta -> bindValue(1,$incidencia);
+            $consulta = $conexion->prepare("SELECT * FROM Incidencias WHERE ciudad LIKE ? OR estado LIKE ?");
+            $consulta -> bindValue(1,'%'.$incidencia.'%');
+            $consulta -> bindValue(2,'%'.$incidencia.'%');
             $consulta -> setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, 'Incidencias\modelos\Incidencias'); //Nombre de la clase
             $consulta -> execute();
 

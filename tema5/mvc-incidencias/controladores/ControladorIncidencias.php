@@ -29,7 +29,7 @@
         //METODO PARA EDITAR INCIDENCIAS 
         public static function editarIncidencia($id) {
 
-            $incidencia = ModeloIncidencia::editarIncidencia($id);
+            $incidencia = ModeloIncidencia::getIncidencia($id);
 
             VistaModificarIncidencia::render($incidencia);
         }

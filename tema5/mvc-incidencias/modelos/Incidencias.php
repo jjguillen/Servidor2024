@@ -10,6 +10,8 @@
         private $direccion;
         private $solucion;
         private $estado;
+
+        //private $Cliente;
         private $idCliente;
 
         public function __construct($id="", $latitud="", $longitud="", $ciudad="", $direccion="", $solucion="", $estado="", $idCliente="") {

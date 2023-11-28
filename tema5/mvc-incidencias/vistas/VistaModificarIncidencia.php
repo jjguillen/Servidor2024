@@ -7,9 +7,9 @@
         public static function render($incidencia) {
 
            // INCLUIMOS LA CABECERA 
-           include "CabeceraPrincipal.php";
+           include "cabeceraPrincipal.php";
 
-           foreach($incidencia as $valor) {
+           $valor = $incidencia;
 
 
 ?>
@@ -33,10 +33,19 @@
                            <div>
                                 <label for="destinatario">Estado:</label>
                                 <select class="form col-6 text-center mt-3" name="estado" id="estado" aria-label="Default select example">
-                                    <option value="<?= $valor->getEstado() ?>"><?= $valor->getEstado() ?></option>
-                                    <option value="Apuntado">Apuntado</option>
-                                    <option value="pendiente">En Proceso</option>
-                                    <option value="Finalizado">Finalizado</option>
+    <?php
+
+            $estados = array("Apuntado", "Pendiente", "Finalizado");
+            foreach($estados as $estado) {
+                if (strcmp($valor->getEstado(),$estado) == 0) {
+                    echo '<option value="'.$estado.'" selected>'.$estado.'</option>';
+                } else {
+                    echo '<option value="'.$estado.'">'.$estado.'</option>';
+                }
+            }
+                                 
+
+    ?>
                                 </select>
                            </div>
 <?php
@@ -51,7 +60,7 @@
                        </form>
                    </div>
 <?php
-           }  
+            
         }
 
     }

@@ -8,7 +8,7 @@
 
         public static function mostrarClientes(){
 
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
             $consulta = $conexion->prepare("SELECT * FROM Clientes");
@@ -24,7 +24,7 @@
 
         public static function buscarCliente($dni){
 
-            $conexionObject = new conexionBBDD();
+            $conexionObject = new ConexionBBDD();
             $conexion = $conexionObject->getConexion();
 
             $consulta = $conexion->prepare("SELECT * FROM Clientes WHERE dni = ? OR nombre LIKE '%$dni%'");

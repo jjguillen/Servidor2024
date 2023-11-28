@@ -7,7 +7,7 @@
     use \PDO;
     use \PDOException;
 
-    class conexionBBDD {
+    class ConexionBBDD {
 
         private $conexion;
 
@@ -17,7 +17,7 @@
     
             try {
                 if ($this->conexion == null) {
-                    $this->conexion = new PDO("mysql:host=" . $host . ";dbname=" . "Incidencias", "root", "toor");
+                    $this->conexion = new PDO("mysql:host=" . $host . ";dbname=" . "corregir", "root", "toor");
                     $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     $this->conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 } 
