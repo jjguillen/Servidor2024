@@ -158,7 +158,7 @@
         let botonPrev = e.target.closest("li[id=prev]");
 		    if (botonPrev) {
           let pagina = botonPrev.value;
-          let genero = botonPrev.genero;
+          let genero = botonPrev.getAttribute('genero');
           console.log(genero);
           if (pagina == 0)
             pagina = 1;
@@ -171,7 +171,7 @@
         let botonNext = e.target.closest("li[id=next]");
 		    if (botonNext) {
           let pagina = botonNext.value;
-          let genero = botonNext.genero;
+          let genero = botonNext.getAttribute('genero');
           console.log(pagina);
           const response = await fetch("./index.php?accion=llamarAPI&genero="+genero+"&page="+pagina);
           const data = await response.text();
