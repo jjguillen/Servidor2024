@@ -1,6 +1,6 @@
 <?php
 
-    namespace DeepRacer\vistas;
+    namespace Comentarios\vistas;
     
     class VistaInicio  {
 

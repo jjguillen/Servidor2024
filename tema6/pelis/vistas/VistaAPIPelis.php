@@ -1,6 +1,6 @@
 <?php
 
-    namespace DeepRacer\vistas;
+    namespace Comentarios\vistas;
     
     class VistaAPIPelis  {
 
@@ -27,7 +27,7 @@
                         <div class='card-body'>
                             <h5 class='card-title'>".$peli->title."</h5>
                             <p class='card-text'>".$peli->overview."</p>
-                            <a href='#' class='btn btn-primary'>Go somewhere</a>
+                            <a href='#' tipo='detallePeli' idPeli='".$peli->id."' class='btn btn-primary'>Detalle</a>
                         </div>
                     </div>
 

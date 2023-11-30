@@ -14,7 +14,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
 
     <style>
 
@@ -106,7 +106,7 @@
       </div>
 
 
-      
+
 
     
 
@@ -152,9 +152,11 @@
         document.getElementById("principal").innerHTML = data;
       };
 
-      //Botones prev y next de paginación
+     
       document.getElementById("principal").onclick=  async function(e) {
-        
+        e.preventDefault();
+
+        //Botones prev y next de paginación
         let botonPrev = e.target.closest("li[id=prev]");
 		    if (botonPrev) {
           let pagina = botonPrev.value;
@@ -172,11 +174,42 @@
 		    if (botonNext) {
           let pagina = botonNext.value;
           let genero = botonNext.getAttribute('genero');
-          console.log(pagina);
+
           const response = await fetch("./index.php?accion=llamarAPI&genero="+genero+"&page="+pagina);
           const data = await response.text();
           document.getElementById("principal").innerHTML = data;
         }
+
+        //Botones de detalle
+        let botonDetalle = e.target.closest("a[tipo=detallePeli]");
+        if (botonDetalle) {
+          let idPeli = botonDetalle.getAttribute('idPeli');
+
+          const response = await fetch("./index.php?accion=detallePeli&id=" + idPeli);
+          const data = await response.text();
+          document.getElementById("principal").innerHTML = data;
+        }
+
+        //Botón nuevo comentario
+        let botonNuevoComentario = e.target.closest("button[tipo=nuevoComentario]");
+        if (botonNuevoComentario) {
+          console.log("boton");
+
+          var myModal = document.getElementById('nuevoComentario');
+          var modal = bootstrap.Modal.getInstance(myModal);
+          modal.hide();
+
+          const datos = new FormData(document.getElementById("formNuevoComentario")); 
+          datos.append("accion","nuevoComentario"); 
+                
+          const response = await fetch("./index.php", { //Fetch hace la petición
+              method: 'POST', // *GET, POST, PUT, DELETE, etc.
+              body: datos
+          });     
+
+          document.getElementById("principal").innerHTML = await response.text();
+        }
+
       };
 
       
