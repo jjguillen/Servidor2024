@@ -10,8 +10,21 @@ services:
     volumes: 
       - .:/home/node/app
     ports:
-      - "3001:3000"
-    command: "npm run dev" 
+      - "3000:3000"
+    command: "yarn dev" 
+
+  #MongoDB
+  mongo:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb:/data/db
 
 
   
