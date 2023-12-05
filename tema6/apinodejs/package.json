@@ -1,0 +1,19 @@
+{
+  "name": "apinodejs",
+  "version": "0.0.1",
+  "description": "Api Nodejs y Express",
+  "main": "index.js",
+  "author": "JaviProfe",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

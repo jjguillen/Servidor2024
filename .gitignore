@@ -1,3 +1,4 @@
 token-git
 *.class
 vendor
+node_modules

@@ -1,21 +1,23 @@
 <?php
 
-    namespace Comentarios\vistas;
-    
-    class VistaAPIDetallePelis  {
+namespace Comentarios\vistas;
 
-        public static function render($respObj, $comentarios) {
+class VistaAPIDetallePelis
+{
 
-        echo '
+  public static function render($respObj, $comentarios)
+  {
+
+    echo '
             <div class="col-md-10">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
               <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-primary">'.$respObj->genres[0]->name.'</strong>
-                <h3 class="mb-0">'.$respObj->title.'</h3>
-                <div class="mb-1 text-muted">'.$respObj->release_date.'</div>
+                <strong class="d-inline-block mb-2 text-primary">' . $respObj->genres[0]->name . '</strong>
+                <h3 class="mb-0">' . $respObj->title . '</h3>
+                <div class="mb-1 text-muted">' . $respObj->release_date . '</div>
                 <div class="mb-1">
-                    <p class="card-text mb-auto">'.$respObj->overview.'</p>
-                    <a href="'.$respObj->homepage.'" class="link">Web original</a>
+                    <p class="card-text mb-auto">' . $respObj->overview . '</p>
+                    <a href="' . $respObj->homepage . '" class="link">Web original</a>
                 </div>
                 <div class="mb-1 mt-2">
                     <h5 class="card-text mb-auto">Comentarios
@@ -25,31 +27,31 @@
                     </h5>
                 ';
 
-        echo "<ol class='mt-2 list-group list-group-numbered'>";
-        foreach($comentarios as $comentario) {
-            echo "<li class='list-group-item d-flex justify-content-between align-items-start mt-3'>";
-            echo "<div class='ms-2 me-auto'>
-                        <div class='fw-bold'>".$comentario->getNick()."</div>
-                        ".$comentario->getComentario()."
+    echo "<ol class='mt-2 list-group list-group-numbered'>";
+    foreach ($comentarios as $comentario) {
+      echo "<li class='list-group-item d-flex justify-content-between align-items-start mt-3'>";
+      echo "<div class='ms-2 me-auto'>
+                        <div class='fw-bold'>" . $comentario->getNick() . "</div>
+                        " . $comentario->getComentario() . "
                   </div>
-                  <span class='badge bg-primary rounded-pill'>".$comentario->getNota()."</span>";
-            echo "</li>";
-        }
-        echo "</ol>";
+                  <span class='badge bg-primary rounded-pill'>" . $comentario->getNota() . "</span>";
+      echo "</li>";
+    }
+    echo "</ol>";
 
-        echo '
+    echo '
 
                 </div>
               </div>
               <div class="col-auto d-none d-lg-block">
-                <img src="https://image.tmdb.org/t/p/w500'.$respObj->poster_path.'" class="card-img-top" >
+                <img src="https://image.tmdb.org/t/p/w500' . $respObj->poster_path . '" class="card-img-top" >
                         
               </div>
             </div>
           </div>
           ';
 
-        echo '
+    echo '
         <!-- Modal -->
         <div class="modal fade" id="nuevoComentario" tabindex="-1" aria-labelledby="nuevoComentarioLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -73,7 +75,7 @@
                   <label for="nota" class="form-label">Nota</label>
                   <input type="number" min="1" max="10" class="form-control" id="nota" name="nota">
                 </div>
-                <input type="hidden" name="idPeli" value="'.$respObj->id.'"/>
+                <input type="hidden" name="idPeli" value="' . $respObj->id . '"/>
               </form>
         
               </div>
@@ -85,11 +87,5 @@
           </div>
         </div>        
         ';
-
-
-        }
-
-    }
-
-
-?>
+  }
+}
