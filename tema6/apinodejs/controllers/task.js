@@ -13,7 +13,7 @@ async function createTask(req, res) {
         if (!taskStore) {
             res.status(400).send({msg: "Error en MongoDB"});
         } else {
-            res.status(200).send({task : taskStore});
+            res.status(201).send({task : taskStore});
         }
 
     } catch (error) {
@@ -21,7 +21,56 @@ async function createTask(req, res) {
     }
 }
 
+async function getTasks(req, res) {
+    
+    try {
+      const tasks = await Task.find({ completed: false }).sort({ created_at: -1 });
+      
+      if (!tasks) {
+        res.status(400).send({ msg: "Error recuperando tareas"});
+      } else {
+        res.status(200).send(tasks);
+      }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
+async function getTask(req, res) {
+    
+    try {
+      const id = req.params.id;
+
+      const task = await Task.findById(id);
+      
+      if (!task) {
+        res.status(400).send({ msg: "Error recuperando tarea"});
+      } else {
+        res.status(200).send(task);
+      }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
+async function deleteTask(req, res) {
+    
+    try {
+      const id = req.params.id;
+
+      const task = await Task.findByIdAndDelete(id);
+      
+      if (!task) {
+        res.status(400).send({ msg: "Error recuperando tarea"});
+      } else {
+        res.status(200).send(task);
+      }
+    } catch (error) {
+        res.status(500).send(error);
+    }
+}
+
 
 module.exports = {
-    createTask,
+    createTask, getTasks, getTask, deleteTask
 }

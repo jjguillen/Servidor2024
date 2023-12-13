@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-//Configurar req
+//Configurar req para que lea json en el body
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
