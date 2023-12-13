@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="principal"></div>
+  </body>
+
+  <script>
+    window.onload = inicio;
+
+    async function inicio() {
+      console.log("hola");
+
+      const response = await fetch("http://localhost:3000/api/task");
+      const data = await response.text();
+      document.getElementById("principal").innerHTML = data;
+    }
+  </script>
+</html>
