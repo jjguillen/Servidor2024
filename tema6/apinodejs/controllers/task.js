@@ -22,7 +22,7 @@ async function createTask(req, res) {
 }
 
 async function getTasks(req, res) {
-    
+    console.log("Mostrar tareas");
     try {
       const tasks = await Task.find({ completed: false }).sort({ created_at: -1 });
       
