@@ -70,7 +70,25 @@ async function deleteTask(req, res) {
     }
 }
 
+async function updateTask(req, res) {
+  const id = req.params.id;
+  const taskUp = req.body;
+
+  try {
+
+    const task = await Task.findByIdAndUpdate(id, taskUp);
+    
+    if (!task) {
+      res.status(400).send({ msg: "Error modificando tarea"});
+    } else {
+      res.status(200).send(task);
+    }
+  } catch (error) {
+      res.status(500).send(error);
+  }
+}
+
 
 module.exports = {
-    createTask, getTasks, getTask, deleteTask
+    createTask, getTasks, getTask, deleteTask, updateTask
 }
