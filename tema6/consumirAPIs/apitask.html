@@ -17,7 +17,15 @@
 
       const response = await fetch("http://localhost:3000/api/task");
       const data = await response.text();
-      document.getElementById("principal").innerHTML = data;
+      const objJson = JSON.parse(data); //Convertimos a objeto JSON
+
+      let dataHtml = "<ul>";
+      objJson.forEach(task => {
+        dataHtml += "<li>" + task.title + "</li>"; 
+      });
+      dataHtml += "</ul>";
+
+      document.getElementById("principal").innerHTML = dataHtml;
     }
   </script>
 </html>
