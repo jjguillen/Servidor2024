@@ -7,6 +7,7 @@ app.use(express.urlencoded({extended: true}));
 
 //Soluciona el problea de CORS.
 //Permitir peticiones a la API desde ese dominio. Poner *, para atender peticiones desde cualquier punto.
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
@@ -15,7 +16,7 @@ app.use((req, res, next) => {
     );
     next();
   });
-  
+
 //Cargar rutas
 const task_rutas = require("./routes/task");
 
