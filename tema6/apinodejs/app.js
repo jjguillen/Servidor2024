@@ -19,9 +19,11 @@ app.use((req, res, next) => {
 
 //Cargar rutas
 const task_rutas = require("./routes/task");
+const user_rutas = require("./routes/user");
 
 //Rutas base
 app.use("/api", task_rutas);
+app.use("/api/user", user_rutas);
 
 module.exports = app;
 
