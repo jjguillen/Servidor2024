@@ -8,10 +8,21 @@ $client = new \GuzzleHttp\Client();
 $texto = "Los coleccionistas de juegos retro";
 $textoArticulo = "Escribe un artículo sobre " . $texto;
 
+/*
 $response = $client->request('POST', 'https://api.openai.com/v1/chat/completions', [
   'body' => '{"model": "gpt-4", "temperature": 0,  "messages": [{"role": "user", "content": "'.$textoArticulo.'"}]}',
   'headers' => [
-    'Authorization' => 'Bearer xxxxxxxxx',
+    'Authorization' => 'Bearer xxxxxx',
+    'accept' => 'application/json',
+    'content-type' => 'application/json',
+  ],
+]);
+*/
+
+$response = $client->request('POST', 'https://api.openai.com/v1/chat/completions', [
+  'body' => '{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": "'.$textoArticulo.'"}]}',
+  'headers' => [
+    'Authorization' => 'Bearer xxxxxxx',
     'accept' => 'application/json',
     'content-type' => 'application/json',
   ],
