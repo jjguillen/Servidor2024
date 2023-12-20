@@ -10,5 +10,5 @@ api.get("/task/:id" , [md_token.ensureAuth], TaskController.getTask);
 api.delete("/task/:id" , [md_token.ensureAuth], TaskController.deleteTask); //Borrar
 api.put("/task/:id" , [md_token.ensureAuth], TaskController.updateTask); //Modificar
 
-
+//api.put("/pokemon/:id/ataque/:pa")
 module.exports = api;
