@@ -1,5 +1,17 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
+
+const AtaqueSchema = Schema({
+    nombre: {
+        type: String,
+        require: true
+    }, 
+    daño: {
+        type: Number,
+        require: true
+    }
+});
 
 const TaskSchema = Schema({
 
@@ -20,7 +32,9 @@ const TaskSchema = Schema({
         type: Date,
         require: true,
         default: Date.now
-    }
+    },
+    temas: [String],
+    ataques: [AtaqueSchema]
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

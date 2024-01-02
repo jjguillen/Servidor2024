@@ -7,6 +7,10 @@ async function createTask(req, res) {
     const params = req.body;
     task.title = params.title;
     task.description = params.description;
+    task.temas = params.temas;
+    task.ataques = params.ataques;
+
+    console.log
 
     try {
         const taskStore = await task.save();
