@@ -1,5 +1,23 @@
 version: "3"
 services:
+  web:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web/:/var/www/ 
+      - ./nginx.php-fpm.conf:/etc/nginx/nginx.conf:ro
+    links:
+      - php-fpm
+
+  # Configuración de php
+  php-fpm:
+    container_name: php
+    build: .
+    volumes:
+      - ./web:/var/www/html
+
   nodeapi:
     image: "node:latest"
     container_name: "nodejs"
@@ -8,7 +26,7 @@ services:
     environment:
       - NODE_ENV=production
     volumes: 
-      - .:/home/node/app
+      - ./api:/home/node/app
     ports:
       - "3000:3000"
     command: "npm run start" 

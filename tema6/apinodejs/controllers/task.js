@@ -26,7 +26,6 @@ async function createTask(req, res) {
 }
 
 async function getTasks(req, res) {
-    console.log("Mostrar tareas");
     try {
       const tasks = await Task.find({ completed: false }).sort({ created_at: -1 });
       
@@ -38,6 +37,26 @@ async function getTasks(req, res) {
     } catch (error) {
         res.status(500).send(error);
     }
+}
+
+async function getTasksTipo(req, res) {
+  console.log("Mostrar tareas por tipo");
+  const tipo = req.params.tipo;
+  try {
+    const tasks = await Task.aggregate([
+      { $unwind: "$tipos" },
+      { $match: { tipos: tipo } },
+      { $sort: { title: -1 }},
+      { $group: { _id: "$tipos", elementos: { $push: "$$ROOT" } } } ]);
+    
+    if (!tasks) {
+      res.status(400).send({ msg: "Error recuperando tareas"});
+    } else {
+      res.status(200).send(tasks);
+    }
+  } catch (error) {
+      res.status(500).send(error);
+  }
 }
 
 async function getTask(req, res) {
@@ -94,5 +113,5 @@ async function updateTask(req, res) {
 
 
 module.exports = {
-    createTask, getTasks, getTask, deleteTask, updateTask
+    createTask, getTasks, getTask, getTasksTipo, deleteTask, updateTask
 }
